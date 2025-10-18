@@ -11,6 +11,7 @@ public interface IHotelService {
     Hotel saveHotel(Hotel hotel);
     Hotel updateHotel(Long id, Hotel hotel);
     void deleteHotel(Long id);
-
     List<Chambre> getChambresByHotel(Long hotelId);
+    List<Hotel> searchHotels(String ville, String pays, Integer nbEtoiles);
+
 }

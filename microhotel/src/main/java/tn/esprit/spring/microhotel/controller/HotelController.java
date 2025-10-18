@@ -51,4 +51,13 @@ public class HotelController {
     public List<Chambre> getChambresByHotel(@PathVariable Long id) {
         return hotelService.getChambresByHotel(id);
     }
+
+    @GetMapping("/search")
+    public List<Hotel> searchHotels(
+            @RequestParam(required = false) String ville,
+            @RequestParam(required = false) String pays,
+            @RequestParam(required = false) Integer nbEtoiles) {
+        return hotelService.searchHotels(ville, pays, nbEtoiles);
+    }
+
 }

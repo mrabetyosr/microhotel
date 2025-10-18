@@ -60,5 +60,11 @@ public class HotelServiceImpl implements IHotelService {
         }
     }
 
+    @Override
+    public List<Hotel> searchHotels(String ville, String pays, Integer nbEtoiles) {
+        return hotelRepository.searchHotels(ville, pays, nbEtoiles);
+    }
+
+
 
 }
