@@ -3,8 +3,10 @@ package tn.esprit.spring.microhotel.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.microhotel.entity.Chambre;
+import tn.esprit.spring.microhotel.entity.Hotel;
 import tn.esprit.spring.microhotel.iservice.IChambreService;
 import tn.esprit.spring.microhotel.repository.ChambreRepository;
+import tn.esprit.spring.microhotel.repository.HotelRepository;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 public class ChambreServiceImpl implements IChambreService {
 
     private final ChambreRepository chambreRepository;
+    private final HotelRepository hotelRepository;
 
     @Override
     public List<Chambre> getAllChambres() {
@@ -26,7 +29,14 @@ public class ChambreServiceImpl implements IChambreService {
 
     @Override
     public Chambre saveChambre(Chambre chambre) {
-        return chambreRepository.save(chambre);
+        Chambre savedChambre = chambreRepository.save(chambre);
+
+        if (savedChambre.getHotel() != null && savedChambre.getHotel().getId() != null) {
+            Hotel hotel = hotelRepository.findById(savedChambre.getHotel().getId()).orElse(null);
+            savedChambre.setHotel(hotel);
+        }
+
+        return savedChambre;
     }
 
     @Override
