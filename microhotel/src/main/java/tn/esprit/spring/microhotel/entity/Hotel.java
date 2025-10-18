@@ -27,7 +27,7 @@ public class Hotel {
     private int nbEtoiles;
     private String telephone;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Chambre> chambres;
 
