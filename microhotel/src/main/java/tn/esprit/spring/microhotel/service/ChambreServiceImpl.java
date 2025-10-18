@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.microhotel.entity.Chambre;
 import tn.esprit.spring.microhotel.entity.Hotel;
+import tn.esprit.spring.microhotel.entity.TypeChambre;
 import tn.esprit.spring.microhotel.iservice.IChambreService;
 import tn.esprit.spring.microhotel.repository.ChambreRepository;
 import tn.esprit.spring.microhotel.repository.HotelRepository;
@@ -57,4 +58,19 @@ public class ChambreServiceImpl implements IChambreService {
     public void deleteChambre(Long id) {
         chambreRepository.deleteById(id);
     }
+
+    @Override
+    public List<Chambre> filterChambres(String type, Double prixMax, Boolean disponible) {
+        TypeChambre typeEnum = null;
+        if (type != null) {
+            try {
+                typeEnum = TypeChambre.valueOf(type.toUpperCase()); // "SIMPLE" -> TypeChambre.SIMPLE
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Type de chambre invalide : " + type);
+            }
+        }
+        return chambreRepository.filterChambres(typeEnum, prixMax, disponible);
+    }
+
+
 }

@@ -39,4 +39,14 @@ public class ChambreController {
     public void deleteChambre(@PathVariable Long id) {
         chambreService.deleteChambre(id);
     }
+
+    @GetMapping("/filter")
+    public List<Chambre> filterChambres(
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Double prixMax,
+            @RequestParam(required = false) Boolean disponible) {
+        return chambreService.filterChambres(type, prixMax, disponible);
+    }
+
+
 }

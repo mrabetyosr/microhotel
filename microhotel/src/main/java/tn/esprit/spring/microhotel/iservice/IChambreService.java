@@ -10,4 +10,6 @@ public interface IChambreService {
     Chambre saveChambre(Chambre chambre);
     Chambre updateChambre(Long id, Chambre chambre);
     void deleteChambre(Long id);
+    List<Chambre> filterChambres(String type, Double prixMax, Boolean disponible);
+
 }
