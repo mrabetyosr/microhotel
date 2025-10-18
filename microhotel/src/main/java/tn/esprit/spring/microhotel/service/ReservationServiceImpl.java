@@ -2,10 +2,16 @@ package tn.esprit.spring.microhotel.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.spring.microhotel.entity.Chambre;
+import tn.esprit.spring.microhotel.entity.Client;
+import tn.esprit.spring.microhotel.entity.Formule;
 import tn.esprit.spring.microhotel.entity.Reservation;
 import tn.esprit.spring.microhotel.iservice.IReservationService;
+import tn.esprit.spring.microhotel.repository.ChambreRepository;
+import tn.esprit.spring.microhotel.repository.ClientRepository;
 import tn.esprit.spring.microhotel.repository.ReservationRepository;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -13,6 +19,8 @@ import java.util.List;
 public class ReservationServiceImpl implements IReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final ChambreRepository chambreRepository;
+    private final ClientRepository clientRepository;
 
     @Override
     public List<Reservation> getAllReservations() {
@@ -26,8 +34,33 @@ public class ReservationServiceImpl implements IReservationService {
 
     @Override
     public Reservation saveReservation(Reservation reservation) {
+        // Récupérer la chambre réelle depuis la base
+        Chambre chambre = chambreRepository.findById(reservation.getChambre().getId())
+                .orElseThrow(() -> new RuntimeException("Chambre non trouvée"));
+        reservation.setChambre(chambre);
+
+        // Récupérer le client réel depuis la base
+        Client client = clientRepository.findById(reservation.getClient().getId())
+                .orElseThrow(() -> new RuntimeException("Client non trouvé"));
+        reservation.setClient(client);
+
+        // Calcul du nombre de nuits
+        long nbNuits = ChronoUnit.DAYS.between(reservation.getDateDebut(), reservation.getDateFin());
+
+        // Calcul du prix total
+        double prixParNuit = chambre.getPrixParNuit();
+        double prixTotal = prixParNuit * nbNuits;
+        if (reservation.getFormule() == Formule.DEMI_PENSION) {
+            prixTotal += 20 * nbNuits;
+        } else if (reservation.getFormule() == Formule.PENSION_COMPLETE) {
+            prixTotal += 40 * nbNuits;
+        }
+
+        reservation.setPrixTotal(prixTotal);
+
         return reservationRepository.save(reservation);
     }
+
 
     @Override
     public Reservation updateReservation(Long id, Reservation updated) {

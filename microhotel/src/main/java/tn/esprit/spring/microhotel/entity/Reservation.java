@@ -1,5 +1,6 @@
 package tn.esprit.spring.microhotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,10 +27,12 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "chambre_id")
+    @JsonIgnoreProperties("reservations")
     private Chambre chambre;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @JsonIgnoreProperties("reservations")
     private Client client;
 
 }
