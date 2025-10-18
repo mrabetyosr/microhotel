@@ -2,6 +2,7 @@ package tn.esprit.spring.microhotel.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.microhotel.entity.Chambre;
 import tn.esprit.spring.microhotel.entity.Hotel;
 import tn.esprit.spring.microhotel.iservice.IHotelService;
 
@@ -43,5 +44,11 @@ public class HotelController {
     @DeleteMapping("/deleteHotel/{id}")
     public void deleteHotel(@PathVariable Long id) {
         hotelService.deleteHotel(id);
+    }
+
+
+    @GetMapping("/{id}/chambres")
+    public List<Chambre> getChambresByHotel(@PathVariable Long id) {
+        return hotelService.getChambresByHotel(id);
     }
 }

@@ -2,6 +2,7 @@ package tn.esprit.spring.microhotel.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.spring.microhotel.entity.Chambre;
 import tn.esprit.spring.microhotel.entity.Hotel;
 import tn.esprit.spring.microhotel.iservice.IHotelService;
 import tn.esprit.spring.microhotel.repository.HotelRepository;
@@ -48,4 +49,16 @@ public class HotelServiceImpl implements IHotelService {
     public void deleteHotel(Long id) {
         hotelRepository.deleteById(id);
     }
+
+    @Override
+    public List<Chambre> getChambresByHotel(Long hotelId) {
+        Hotel hotel = hotelRepository.findById(hotelId).orElse(null);
+        if (hotel != null) {
+            return hotel.getChambres();
+        } else {
+            return List.of();
+        }
+    }
+
+
 }

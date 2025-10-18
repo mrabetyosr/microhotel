@@ -1,5 +1,6 @@
 package tn.esprit.spring.microhotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Chambre {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
+    @JsonIgnore
     private Hotel hotel;
 
     @OneToMany(mappedBy = "chambre", cascade = CascadeType.ALL)
