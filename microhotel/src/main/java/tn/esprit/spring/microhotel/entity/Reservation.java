@@ -25,6 +25,10 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Formule formule; // CHAMBRE_SEULE, DEMI_PENSION, PENSION_COMPLETE
 
+    @Enumerated(EnumType.STRING)
+    private StatusReservation status = StatusReservation.EN_ATTENTE; // valeur par défaut
+
+
     @ManyToOne
     @JoinColumn(name = "chambre_id")
     @JsonIgnoreProperties("reservations")
